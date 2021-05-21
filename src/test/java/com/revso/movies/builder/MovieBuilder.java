@@ -1,4 +1,4 @@
-package com.revso.movies.controller.builder;
+package com.revso.movies.builder;
 
 import com.revso.movies.enums.CategoryEnum;
 import com.revso.movies.enums.StreamingEnum;
@@ -10,6 +10,15 @@ public class MovieBuilder {
 		Movie movie = new Movie();
 		movie.setId(1L);
 		movie.setName("The Witch");
+		movie.setCategory(CategoryEnum.HORROR);
+		movie.setStreaming(StreamingEnum.NETFLIX);
+		return movie;
+	}
+	
+	public static Movie buildAlterMovie() {
+		Movie movie = new Movie();
+		movie.setId(1L);
+		movie.setName("Invocação do mal");
 		movie.setCategory(CategoryEnum.HORROR);
 		movie.setStreaming(StreamingEnum.NETFLIX);
 		return movie;

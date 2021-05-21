@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import com.revso.movies.controller.builder.MovieBuilder;
+import com.revso.movies.builder.MovieBuilder;
 import com.revso.movies.model.Movie;
 
 @DataJpaTest
@@ -42,7 +42,7 @@ public class MovieRepositoryTest {
 		Movie changedMovie = this.movieRepository.save(movieToBeSaved);
 		assertThat(changedMovie).isNotNull();
 		assertThat(changedMovie.getId()).isNotNull();
-		assertThat(changedMovie.getName()).isEqualTo(movieSaved.getName());
+		assertThat(changedMovie.getId()).isEqualTo(movieSaved.getId());
 	}
 	
 	@Test
