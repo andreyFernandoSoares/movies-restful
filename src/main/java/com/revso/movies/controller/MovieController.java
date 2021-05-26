@@ -1,5 +1,8 @@
 package com.revso.movies.controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,7 +12,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revso.movies.enums.CategoryEnum;
+import com.revso.movies.enums.StreamingEnum;
 import com.revso.movies.exception.MovieBadRequestException;
 import com.revso.movies.exception.MovieNotFoundException;
 import com.revso.movies.model.Movie;
@@ -112,7 +115,15 @@ public class MovieController {
 		
 		movie.add(linkTo(methodOn(MovieController.class)
 				.delete(movie.getId(), http))
-				.withRel("save"));
+				.withRel("delete"));
+		
+		movie.add(linkTo(methodOn(MovieController.class)
+				.findAllStreamings(http))
+				.withRel("allStreaming"));
+		
+		movie.add(linkTo(methodOn(MovieController.class)
+				.findAllCategories(http))
+				.withRel("allCategory"));
 		
 		return ResponseEntity
 				.status(HttpStatus.OK)
@@ -201,5 +212,28 @@ public class MovieController {
 				.header(HttpHeaders.LOCATION, location)
 				.build();
 	}
-
+	
+	@ApiOperation("Get Categories")
+	@GetMapping("/category/all")
+	@Cacheable
+	public ResponseEntity<List<CategoryEnum>> findAllCategories(HttpServletRequest http) {
+		String location = http.getRequestURL().toString();
+		
+		return ResponseEntity
+				.status(HttpStatus.OK)
+				.header(HttpHeaders.LOCATION, location)
+				.body(CategoryEnum.list);
+	}
+	
+	@ApiOperation("Get Categories")
+	@GetMapping("/streaming/all")
+	@Cacheable
+	public ResponseEntity<List<StreamingEnum>> findAllStreamings(HttpServletRequest http) {
+		String location = http.getRequestURL().toString();
+		
+		return ResponseEntity
+				.status(HttpStatus.OK)
+				.header(HttpHeaders.LOCATION, location)
+				.body(StreamingEnum.list);
+	}
 }
